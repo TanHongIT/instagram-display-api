@@ -12,6 +12,7 @@ class IGDisplayApi
     private $userAccessToken = '';
 
     public $authorizationUrl = '';
+    public $hasUserAccessToken = false;
 
     function __construct($params)
     {
@@ -42,6 +43,9 @@ class IGDisplayApi
     {
         if ($params['get_code']) {
             $userAccessTokenResponse = $this->getUserAccessToken();
+
+            $this->userAccessToken = $userAccessTokenResponse['access_token'];
+            $this->hasUserAccessToken = true;
         }
     }
 
@@ -87,12 +91,16 @@ class IGDisplayApi
 
         $responseArray = json_decode($response, true);
 
-        //check response data
+        // check response data
         if (isset($responseArray['error_type'])) {
             var_dump($responseArray);
             die();
         } else {
             return $responseArray;
         }
+    }
+
+    public function getThisUserAccessToken() {
+        return $this->_userAccessToken;
     }
 }
