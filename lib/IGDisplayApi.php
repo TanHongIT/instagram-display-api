@@ -63,7 +63,36 @@ class IGDisplayApi
         return $response;
     }
 
-    private function makeApiCall()
+    private function makeApiCall($params)
     {
+        $curl = curl_init();
+
+        $endpoint = $params['endpoint_url'];
+
+        if ('POST' == $params['type']) { // post request
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params['url_params']));
+            curl_setopt($curl, CURLOPT_POST, 1);
+        }
+
+        // general curl options
+        curl_setopt($curl, CURLOPT_URL, $endpoint);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $responseArray = json_decode($response, true);
+
+        //check response data
+        if (isset($responseArray['error_type'])) {
+            var_dump($responseArray);
+            die();
+        } else {
+            return $responseArray;
+        }
     }
 }
