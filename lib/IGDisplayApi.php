@@ -9,6 +9,7 @@ class IGDisplayApi
     private $getCode = '';
     private $apiBaseUrl = 'https://api.instagram.com/';
     private $graphBaseUrl = 'https://graph.instagram.com/';
+    private $userAccessToken = '';
 
     public $authorizationUrl = '';
 
@@ -16,6 +17,9 @@ class IGDisplayApi
     {
         // save instagram code
         $this->getCode = $params['get_code'];
+
+        // get an access token
+        $this->setUserInstagramAccessToken($params);
 
         // get authorization url
         $this->setAuthorizationUrl();
@@ -32,5 +36,34 @@ class IGDisplayApi
 
         // create url
         $this->authorizationUrl = $this->apiBaseUrl . 'oauth/authorize?' . http_build_query($getVars);
+    }
+
+    private function setUserInstagramAccessToken($params)
+    {
+        if ($params['get_code']) {
+            $userAccessTokenResponse = $this->getUserAccessToken();
+        }
+    }
+
+    private function getUserAccessToken()
+    {
+        $params = array(
+            'endpoint_url' => $this->_apiBaseUrl . 'oauth/access_token',
+            'type' => 'POST',
+            'url_params' => array(
+                'app_id' => $this->appId,
+                'app_secret' => $this->appSecret,
+                'grant_type' => 'authorization_code',
+                'redirect_uri' => $this->redirectUrl,
+                'code' => $this->getCode
+            )
+        );
+
+        $response = $this->makeApiCall($params);
+        return $response;
+    }
+
+    private function makeApiCall()
+    {
     }
 }
