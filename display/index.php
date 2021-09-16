@@ -18,15 +18,14 @@ if ($ig->hasUserAccessToken) :
     echo 'Expires in: ' . $ig->getUserAccessTokenExpires() . '= ' .  ceil($ig->getUserAccessTokenExpires() / 86400) . ' days';
 endif; 
 
-// if ($ig->hasUserAccessToken) :
-//     $user = $ig->getUser();
-//     $userMedia = $ig->getUsersMedia();
-// ?>
-//     <pre>
-// 		<?php print_r($user); ?>
-// 	</pre>
-//     <pre>
-// 		<?php print_r($userMedia); ?>
-// 	</pre>
-// <?php endif; 
+if ($ig->hasUserAccessToken) :
+    $user = $ig->getUser();
+    $userMedia = $ig->getUsersMedia();
 ?>
+    <pre>
+		<?php print_r($user); ?>
+	</pre>
+    <pre>
+		<?php print_r($userMedia); ?>
+	</pre>
+<?php endif; ?>
