@@ -10,8 +10,9 @@ $params = array(
 );
 $ig = new IGDisplayApi($params);
 
-if ($ig->hasUserAccessToken) : 
-var_dump($ig->getThisUserAccessToken());
+if ($ig->hasUserAccessToken) :
+    var_dump($ig->getThisUserAccessToken());
 ?>
-Expires: <?= $ig->getUserAccessTokenExpires() ?>
+    <br>
+    Expires in: <?= $ig->getUserAccessTokenExpires() ?> = <?= ceil($ig->getUserAccessTokenExpires() / 86400) ?> days
 <?php endif; ?>
