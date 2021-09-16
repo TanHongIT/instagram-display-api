@@ -41,10 +41,7 @@ class IGDisplayApi
 
     private function setUserInstagramAccessToken($params)
     {
-        if ($params['access_token']) {
-            $this->userAccessToken = $params['access_token'];
-            $this->hasUserAccessToken = true;
-        } elseif ($params['get_code']) { // try and get an access token
+        if ($params['get_code']) { // try and get an access token
             $userAccessTokenResponse = $this->getUserAccessToken();
 
             $this->userAccessToken = $userAccessTokenResponse['access_token'];
