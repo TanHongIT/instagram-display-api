@@ -14,6 +14,7 @@ class IGDisplayApi
 
     public $authorizationUrl = '';
     public $hasUserAccessToken = false;
+    public $userId = '';
 
     function __construct($params)
     {
@@ -42,7 +43,11 @@ class IGDisplayApi
 
     private function setUserInstagramAccessToken($params)
     {
-        if ($params['get_code']) { // try and get an access token
+        if ($params['access_token']) { // have an access token
+            $this->userAccessToken = $params['access_token'];
+            $this->hasUserAccessToken = true;
+            $this->userId = $params['user_id'];
+        } elseif ($params['get_code']) { // try and get an access token
             $userAccessTokenResponse = $this->getUserAccessToken();
 
             $this->userAccessToken = $userAccessTokenResponse['access_token'];
@@ -134,5 +139,19 @@ class IGDisplayApi
     public function getUserAccessTokenExpires()
     {
         return $this->userAccessTokenExpires;
+    }
+
+    public function getUser()
+    {
+        $params = array(
+            'endpoint_url' => $this->graphBaseUrl . 'me',
+            'type' => 'GET',
+            'url_params' => array(
+                'fields' => 'id,username,media_count,account_type',
+            )
+        );
+
+        $response = $this->makeApiCall($params);
+        return $response;
     }
 }
