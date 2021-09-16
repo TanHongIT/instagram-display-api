@@ -55,7 +55,8 @@ class IGDisplayApi
         }
     }
 
-    private function getTimeLivedUserAccessToken(){
+    private function getTimeLivedUserAccessToken()
+    {
         $params = array(
             'endpoint_url' => $this->graphBaseUrl . 'access_token',
             'type' => 'GET',
@@ -65,7 +66,7 @@ class IGDisplayApi
             )
         );
 
-        $response = $this->makeApiCall( $params );
+        $response = $this->makeApiCall($params);
         return $response;
     }
 
@@ -96,11 +97,11 @@ class IGDisplayApi
         if ('POST' == $params['type']) { // post request
             curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params['url_params']));
             curl_setopt($curl, CURLOPT_POST, 1);
-        }elseif ( 'GET' == $params['type'] && !$params['url_params']['paging'] ) { // get request
-            $params['url_params']['access_token'] = $this->_userAccessToken;
+        } elseif ('GET' == $params['type']) { // get request
+            $params['url_params']['access_token'] = $this->userAccessToken;
 
             //add params to endpoint
-            $endpoint .= '?' . http_build_query( $params['url_params'] );
+            $endpoint .= '?' . http_build_query($params['url_params']);
         }
 
         // general curl options
