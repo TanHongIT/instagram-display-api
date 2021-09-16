@@ -155,4 +155,17 @@ class IGDisplayApi
         $response = $this->makeApiCall($params);
         return $response;
     }
+
+    public function getUsersMedia() {
+        $params = array(
+            'endpoint_url' => $this->graphBaseUrl . $this->userId . '/media',
+            'type' => 'GET',
+            'url_params' => array(
+                'fields' => 'id,caption,media_type,media_url',
+            )
+        );
+
+        $response = $this->makeApiCall( $params );
+        return $response;
+    }
 }
