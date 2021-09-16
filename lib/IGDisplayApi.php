@@ -10,6 +10,7 @@ class IGDisplayApi
     private $apiBaseUrl = 'https://api.instagram.com/';
     private $graphBaseUrl = 'https://graph.instagram.com/';
     private $userAccessToken = '';
+    private $userAccessTokenExpires = '';
 
     public $authorizationUrl = '';
     public $hasUserAccessToken = false;
@@ -46,7 +47,26 @@ class IGDisplayApi
 
             $this->userAccessToken = $userAccessTokenResponse['access_token'];
             $this->hasUserAccessToken = true;
+
+            // get time lived of access token
+            $longLivedAccessTokenResponse = $this->getTimeLivedUserAccessToken();
+            $this->userAccessToken = $longLivedAccessTokenResponse['access_token'];
+            $this->userAccessTokenExpires = $longLivedAccessTokenResponse['expires_in'];
         }
+    }
+
+    private function getTimeLivedUserAccessToken(){
+        $params = array(
+            'endpoint_url' => $this->graphBaseUrl . 'access_token',
+            'type' => 'GET',
+            'url_params' => array(
+                'client_secret' => $this->appSecret,
+                'grant_type' => 'ig_exchange_token',
+            )
+        );
+
+        $response = $this->makeApiCall( $params );
+        return $response;
     }
 
     private function getUserAccessToken()
@@ -76,6 +96,11 @@ class IGDisplayApi
         if ('POST' == $params['type']) { // post request
             curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params['url_params']));
             curl_setopt($curl, CURLOPT_POST, 1);
+        }elseif ( 'GET' == $params['type'] && !$params['url_params']['paging'] ) { // get request
+            $params['url_params']['access_token'] = $this->_userAccessToken;
+
+            //add params to endpoint
+            $endpoint .= '?' . http_build_query( $params['url_params'] );
         }
 
         // general curl options
@@ -103,5 +128,10 @@ class IGDisplayApi
     public function getThisUserAccessToken()
     {
         return $this->userAccessToken;
+    }
+
+    public function getUserAccessTokenExpires()
+    {
+        return $this->userAccessTokenExpires;
     }
 }

@@ -13,5 +13,5 @@ $ig = new IGDisplayApi($params);
 if ($ig->hasUserAccessToken) : 
 var_dump($ig->getThisUserAccessToken());
 ?>
-
+Expires: <?= $ig->getUserAccessTokenExpires() ?>
 <?php endif; ?>
