@@ -7,6 +7,7 @@ $accessToken = ACCESS_TOKEN;
 $params = array(
     'get_code' => isset($_GET['code']) ? $_GET['code'] : '',
     'access_token' => $accessToken,
+    'user_id' => USER_ID
 );
 $ig = new IGDisplayApi($params);
 ?>

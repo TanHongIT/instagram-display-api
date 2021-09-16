@@ -52,6 +52,7 @@ class IGDisplayApi
 
             $this->userAccessToken = $userAccessTokenResponse['access_token'];
             $this->hasUserAccessToken = true;
+            $this->userId = $userAccessTokenResponse['user_id'];
 
             // get time lived of access token
             $longLivedAccessTokenResponse = $this->getTimeLivedUserAccessToken();

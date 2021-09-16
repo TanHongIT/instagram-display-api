@@ -4,3 +4,4 @@ define('INSTAGRAM_APP_SECRET', 'YOUR-APP-SECRET');
 define('INSTAGRAM_APP_REDIRECT_URI', 'YOUR-REDIRECT-URI');
 
 define('ACCESS_TOKEN', 'YOUR-ACCESS-TOKEN');
+define('USER_ID', '6260303117375002'); //get user ID in array after run test
