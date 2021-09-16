@@ -2,11 +2,8 @@
 // config INSTAGRAM_APP_REDIRECT_URI is test
 require_once('../lib/IGDisplayApi.php');
 
-$accessToken = '';
-
 $params = array(
     'get_code' => isset($_GET['code']) ? $_GET['code'] : '',
-    'access_token' => $accessToken,
     'user_id' => ''
 );
 $ig = new IGDisplayApi($params);
