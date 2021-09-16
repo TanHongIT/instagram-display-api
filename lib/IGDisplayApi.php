@@ -101,6 +101,6 @@ class IGDisplayApi
     }
 
     public function getThisUserAccessToken() {
-        return $this->_userAccessToken;
+        return $this->userAccessToken;
     }
 }
